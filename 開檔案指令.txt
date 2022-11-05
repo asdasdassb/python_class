@@ -1,0 +1,21 @@
+jupyter notebook
+Microsoft Windows [版本 10.0.19042.1526]
+(c) Microsoft Corporation. 著作權所有，並保留一切權利。
+
+C:\Users\asdas>cd D:/
+
+C:\Users\asdas>cd D
+系統找不到指定的路徑。
+
+C:\Users\asdas>cd d:
+D:\
+
+C:\Users\asdas>cd D:
+D:\
+
+C:\Users\asdas>D:
+
+D:\>python_class
+'python_class' 不是內部或外部命令、可執行的程式或批次檔。
+
+D:\>cd python_class
