@@ -9,7 +9,6 @@ import cloudscraper
 import time
 
 
-# Chian
 def nowtime():
     sec = time.time()
     now = time.localtime(sec)
@@ -17,8 +16,6 @@ def nowtime():
     return str
 
 
-
-# ttttt
 class lol_search(Cog_Extension):
     #LOL 玩家查詢
     @commands.slash_command(name = '查玩家', description = '英雄聯盟玩家查詢')
@@ -46,9 +43,9 @@ class lol_search(Cog_Extension):
                     sel_rk = find_rk.select('dd')
                     list_rk = data_parse.translate(sel_rk)
                     if find_id == None:
-                        if database.select_data(guild_id,'acct_id') == 'True' or database.select_data(guild_id,'acct_id') == 'true':
+                        if acct_id:
                             embed_lol = discord.Embed(title = lv_id[1] + ' ' + id.replace('%20',' ') + '\n' + 'GarenaID:' + ' ' + acct_id, colour = discord.Colour.blue())
-                        elif database.select_data(guild_id,'acct_id') == 'False' or database.select_data(guild_id,'acct_id') == 'false':
+                        else :
                             embed_lol = discord.Embed(title = lv_id[1] + ' ' + id.replace('%20',' '), colour = discord.Colour.blue())
                         embed_lol.add_field(name = '過去牌位', value = data_parse.list_zip_2(title_list,list_rk), inline = True)
                         embed_lol.add_field(name = '過去召喚師名稱', value = '無過去召喚師名稱', inline = True)
@@ -62,9 +59,9 @@ class lol_search(Cog_Extension):
                         id_time = data_parse.create_string_2(sel_id_time).split(' ')
                         id_time = id_time[0: len(id_time)-1: 2]
                         if len(sel_id) <= 10:
-                            if database.select_data(guild_id,'acct_id') == 'True' or database.select_data(guild_id,'acct_id') == 'true':
+                            if acct_id:
                                 embed_lol = discord.Embed(title = lv_id[1] + ' ' + id.replace('%20',' ') + '\n' + 'GarenaID:' + '  ' + acct_id, colour = discord.Colour.blue())
-                            elif database.select_data(guild_id,'acct_id') == 'False' or database.select_data(guild_id,'acct_id') == 'false':
+                            else:
                                 embed_lol = discord.Embed(title = lv_id[1] + ' ' + id.replace('%20',' '), colour = discord.Colour.blue())
                             embed_lol.add_field(name = '過去牌位', value = data_parse.list_zip_2(title_list,list_rk), inline = True)
                             embed_lol.add_field(name = '過去召喚師名稱', value = data_parse.list_zip(id_time,sel_id), inline = True)
@@ -73,33 +70,18 @@ class lol_search(Cog_Extension):
                             await ctx.respond(embed = embed_lol)
                             print(f'lol search at {nowtime()} response code : {response.status_code}')
                         elif len(sel_id) > 10:
-                            if database.select_data(guild_id,'lol_search_all_id') == 'false':
-                                list_id = list(data_parse.cutlist(sel_id))
-                                id_time = list(data_parse.cutlist_2(id_time))
-                                if database.select_data(guild_id,'acct_id') == 'True' or database.select_data(guild_id,'acct_id') == 'true':
-                                    embed_lol = discord.Embed(title = lv_id[1] + ' ' + id.replace('%20',' ') + '\n' + 'GarenaID:' + '  ' + acct_id, colour = discord.Colour.blue())
-                                elif database.select_data(guild_id,'acct_id') == 'False' or database.select_data(guild_id,'acct_id') == 'false':
-                                    embed_lol = discord.Embed(title = lv_id[1] + ' ' + id.replace('%20',' '), colour = discord.Colour.blue())
-                                embed_lol.add_field(name = '過去牌位', value = data_parse.list_zip_2(title_list,list_rk), inline = True)
-                                embed_lol.add_field(name = '過去召喚師名稱', value = data_parse.list_zip_2(id_time,list_id), inline = True)
-                                embed_lol.set_thumbnail(url = data_parse.img_list(imgdata)[0])
-                                embed_lol.set_footer(text = f"此機器人已在 {len(self.bot.guilds)} 個伺服器中服務" + '\n' + '原始資料來自: https://lol.moa.tw/' + '\n' + find_time.text.replace('Last Modified date','最後更新日期'))
-                                await ctx.respond(embed = embed_lol)
-                                print(f'lol search at {nowtime()} response code : {response.status_code}')
-                            elif database.select_data(guild_id,'lol_search_all_id') == 'true':
-                                list_id = list(data_parse.split_list_ids(sel_id, 15))
-                                id_time = list(data_parse.split_list_ids(id_time, 15))
-                                if database.select_data(guild_id,'acct_id') == 'True' or database.select_data(guild_id,'acct_id') == 'true':
-                                    embed_lol = discord.Embed(title = lv_id[1] + ' ' + id.replace('%20',' ') + '\n' + 'GarenaID:' + '  ' + acct_id, colour = discord.Colour.blue())
-                                elif database.select_data(guild_id,'acct_id') == 'False' or database.select_data(guild_id,'acct_id') == 'false':
-                                    embed_lol = discord.Embed(title = lv_id[1] + ' ' + id.replace('%20',' '), colour = discord.Colour.blue())
-                                embed_lol.add_field(name = '過去牌位', value = data_parse.list_zip_2(title_list,list_rk), inline = True)
-                                for i in range(0,len(list_id)):
-                                    embed_lol.add_field(name = '過去召喚師名稱', value = data_parse.create_string_list(list_id[i]), inline = True)
-                                embed_lol.set_thumbnail(url = data_parse.img_list(imgdata)[0])
-                                embed_lol.set_footer(text = f"此機器人已在 {len(self.bot.guilds)} 個伺服器中服務" + '\n' + '原始資料來自: https://lol.moa.tw/' + '\n' + find_time.text.replace('Last Modified date','最後更新日期'))
-                                await ctx.respond(embed = embed_lol)
-                                print(f'lol search at {nowtime()} response code : {response.status_code}')
+                            list_id = list(data_parse.cutlist(sel_id))
+                            id_time = list(data_parse.cutlist_2(id_time))
+                            if acct_id:
+                                embed_lol = discord.Embed(title = lv_id[1] + ' ' + id.replace('%20',' ') + '\n' + 'GarenaID:' + '  ' + acct_id, colour = discord.Colour.blue())
+                            else:
+                                embed_lol = discord.Embed(title = lv_id[1] + ' ' + id.replace('%20',' '), colour = discord.Colour.blue())
+                            embed_lol.add_field(name = '過去牌位', value = data_parse.list_zip_2(title_list,list_rk), inline = True)
+                            embed_lol.add_field(name = '過去召喚師名稱', value = data_parse.list_zip_2(id_time,list_id), inline = True)
+                            embed_lol.set_thumbnail(url = data_parse.img_list(imgdata)[0])
+                            embed_lol.set_footer(text = f"此機器人已在 {len(self.bot.guilds)} 個伺服器中服務" + '\n' + '原始資料來自: https://lol.moa.tw/' + '\n' + find_time.text.replace('Last Modified date','最後更新日期'))
+                            await ctx.respond(embed = embed_lol)
+                            print(f'lol search at {nowtime()} response code : {response.status_code}')
                 except:
                     embed_lol = discord.Embed(title = '玩家查詢', description = '**查無此玩家**', colour = discord.Color.blue())
                     await ctx.respond(embed = embed_lol)
