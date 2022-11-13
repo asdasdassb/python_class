@@ -13,6 +13,7 @@ def get_token():
 
     return dectex
 
+
 bot = commands.Bot(command_prefix='!')
 bot.load_extension("lol_search")
 bot.run(get_token())
